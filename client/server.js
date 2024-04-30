@@ -28,7 +28,7 @@ app.use(keycloak.middleware({
     logout: '/logout',
 }));
 
-app.engine('handlebars', engine());
+app.engine('handlebars', engine.engine());
 app.set('view engine', 'handlebars');
 app.set('main', './views');
 
