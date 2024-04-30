@@ -839,6 +839,14 @@ jQuery(function($){
   );
   // console.log(url_form_data);
   // console.log(url_opts_data);
+  // Get the current URL
+  var url = new URL(window.location.href);
+
+  // Remove the query parameters
+  url.search = '';
+
+  // Replace the current URL without triggering a redirect
+  window.history.replaceState({}, document.title, url.toString());
 
   if (url_opts_data.term) {
     term_type.val(url_opts_data.term);
