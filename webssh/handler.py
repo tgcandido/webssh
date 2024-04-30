@@ -429,7 +429,7 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
             try:
                 _, stdout, _ = ssh.exec_command(command,
                                                 get_pty=True,
-                                                timeout=1)
+                                                timeout=10)
             except paramiko.SSHException as exc:
                 logging.info(str(exc))
             else:
@@ -450,9 +450,10 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
         ssh = self.ssh_client
         dst_addr = args[:2]
         logging.info('Connecting to {}:{}'.format(*dst_addr))
-
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
-            ssh.connect(*args, timeout=options.timeout)
+            print(args)
+            ssh.connect(*args, timeout=options.timeout, look_for_keys=False, allow_agent=False, disabled_algorithms={'kex': ['curve25519-sha256@libssh.org', 'ecdh-sha2-nistp256', 'ecdh-sha2-nistp384', 'ecdh-sha2-nistp521', 'diffie-hellman-group16-sha512', 'diffie-hellman-group-exchange-sha256', 'diffie-hellman-group14-sha256', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group1-sha1']})
         except socket.error:
             raise ValueError('Unable to connect to {}:{}'.format(*dst_addr))
         except paramiko.BadAuthenticationType:
