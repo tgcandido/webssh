@@ -1,0 +1,10 @@
+{
+    "realm": "webauthn",
+    "auth-server-url": "https://solustic.lockeet.com/",
+    "ssl-required": "external",
+    "resource": "webauthn-client",
+    "credentials": {
+      "secret": "48bd47dd-9663-4552-ae6a-8f1deab6cf9b"
+    },
+    "confidential-port": 0
+  }
